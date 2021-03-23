@@ -15,21 +15,33 @@ fun all_except_list(x : string, ys : string list) =
 		    then all_except_list(x, ys')
 		    else y :: all_except_list(x, ys');
 
-fun all_except_option(x : string, ys : string list) =
+fun all_except_option (x : string, ys : string list) =
     case ys of
 	[] => NONE
       | y :: ys' => if same_string(x,y)
 		    then SOME (all_except_list(x, ys))
 		    else case all_except_option(x, ys') of
 			     NONE => NONE
-			  | SOME l => SOME (y :: l)
-											      
+			   | SOME l => SOME (y :: l);
+
+fun all_except_option2 (x : string, ys : string list) =
+    case ys of
+	[] => NONE
+      | y :: ys' => case all_except_option2 (x, ys') of 
+			NONE => if same_string(x, y) (* if x does not occur in tail, *) 
+				then SOME ys'        (* if x = y then return the entire tail *)
+				else NONE            (* otherwise, x doesn't occur at all *)
+		      | SOME l => if same_string(x, y) (* if x does occur in tail *)
+				  then SOME l   (* we want to return the same if x = y *)
+				  else SOME (y :: l); (* or prepend y if it is different from x *)
+
+										    
 
 
 fun get_substitutions1(subs : string list list, s : string) =
     case subs of
 	[] => []
-      | sub :: subs' => case all_except_option(s, sub) of
+      | sub :: subs' => case all_except_option2(s, sub) of
 			        NONE => get_substitutions1(subs', s)
 			      | SOME l => l @ get_substitutions1(subs',s);
 					     

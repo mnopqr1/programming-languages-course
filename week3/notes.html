@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>notes.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<h1>Notes week 3</h1>
+<h2>Lectures</h2>
+<h3>Building Compound Types</h3>
+<ul>
+<li>We know base types int, bool, unit, char.</li>
+<li>We also know some compound types: tupes, lists, options.</li>
+<li>We will now learn new ways to make new compound types.</li>
+<li>In any language, there are three kinds of type building blocks:<ul>
+<li>Each of</li>
+<li>One of</li>
+<li>Self reference</li>
+</ul>
+</li>
+<li>Of these:<ul>
+<li>Tuples are clearly each of</li>
+<li>Options are one-of</li>
+<li>Int list contains (int and other list) or nothing.</li>
+<li>We can of course nest compound types.</li>
+</ul>
+</li>
+<li>We will now see <em>records</em>, which are a lot like tuples, and <em>syntactic sugar</em>.</li>
+<li>Build our own one-of types, and the connected idea of <em>pattern matching</em>.</li>
+<li>Later in the course, we will see how OOP does one-of types (uses subclasses), very different from functional programming.</li>
+</ul>
+<h3>Records</h3>
+<ul>
+<li>Syntax example with braces; unordered, shown in alphabetical order.</li>
+<li>We don't have to declare a record type in advance, contrary to say a class in Java or a struct in C.</li>
+<li>For getting a field from a record, we do <code>#fieldname record</code>.</li>
+<li>Freudian example with id, ego and superego.</li>
+<li>Note that these are a lot like tuples. It's like a named tuple in Python.</li>
+<li>Important syntax decision: access-by-position or access-by-name. For example handling a function's arguments.</li>
+</ul>
+<h3>Tuples as syntactic sugar</h3>
+<ul>
+<li>We've already seen how to create pairs and records.</li>
+<li>A pair <strong>is</strong> just a record with special field names.</li>
+<li>Tuples are just a different way of writing records of the form {1=.., 2=.., ..., n=..}.</li>
+</ul>
+</body>
+</html>

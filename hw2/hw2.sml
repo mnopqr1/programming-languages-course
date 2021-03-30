@@ -8,7 +8,7 @@ fun same_string(s1 : string, s2 : string) =
 
 (* put your solutions for problem 1 here *)
 
-fun all_except_list(x : string, ys : string list) =
+fun all_except_list (x : string, ys : string list) =
     case ys of
 	[] => []
       | y :: ys' => if same_string(x,y)
@@ -38,14 +38,38 @@ fun all_except_option2 (x : string, ys : string list) =
 										    
 
 
-fun get_substitutions1(subs : string list list, s : string) =
+fun get_substitutions1 (subs : string list list, s : string) =
     case subs of
 	[] => []
       | sub :: subs' => case all_except_option2(s, sub) of
 			        NONE => get_substitutions1(subs', s)
 			      | SOME l => l @ get_substitutions1(subs',s);
-					     
-	     
+
+fun get_substitutions2 (subs : string list list, s : string) =
+    let fun aux (subs : string list list, s : string, acc : string list) =
+	    case subs of
+		[] => acc
+	      | sub :: subs' => case all_except_option2(s, sub) of
+				    NONE => aux(subs', s, acc)
+				  | SOME l => aux(subs', s, l @ acc)
+    in
+	aux(subs, s, [])
+    end;
+
+fun similar_names (substitutions : string list list, {first=f, middle=m, last=l} ) =
+    let fun altfullname (f') =
+	    {first=f', middle=m, last=l}
+    in
+	let fun apply_list (xs) =
+		case xs of
+		    [] => []
+		  | x :: xs' => (altfullname x) :: apply_list (xs')
+	in
+	    altfullname (f) :: apply_list (get_substitutions2 (substitutions, f))
+	end
+    end;
+	
+		  
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
@@ -58,3 +82,28 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+fun card_color (s, r) =
+    case s of
+	Clubs => Black
+      | Spades => Black
+      | Hearts => Red
+      | Diamonds => Red;
+
+fun card_value (s, r) =
+    case r of
+	Num a => a
+      | Ace => 11
+      | _ => 10;
+
+fun remove_card (cs : card list, c : card, e) =
+    let fun aux (cs, c, e, acc) =
+	case cs of
+	    [] => raise e
+	  | c' :: cs' => if c' = c
+			 then acc @ cs'
+			 else aux(cs', c, e, c' :: acc)
+    in
+	aux(cs, c, e, [])
+    end;
+ 
+			
